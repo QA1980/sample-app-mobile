@@ -1,4 +1,4 @@
-name: iOS SauceLabs Mobile Sample App
+name: iOS SauceLabs Mobile Sample_App
 
 on:
   push:
