@@ -1,4 +1,4 @@
-name: Android SauceLabs Sample_app/ RELEASE
+name: Android SauceLabs Sample_app/ RELEASE test
 
 on:
   push:
