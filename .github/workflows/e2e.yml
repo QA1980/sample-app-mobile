@@ -44,7 +44,7 @@ jobs:
            xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-X com.apple.CoreSimulator.SimRuntime.iOS-11-4 > deviceid.txt 
            DEVICEUUID=`cat deviceid.txt`          
            echo $DEVICEUUID          
-           sed -i -e "s/{IPHONE_UUID}/$DEVICEUUID/g" __tests__/e2e/template_appium_configs_ios.js          
+                     
            xcrun simctl boot $DEVICEUUID &
       # Use HTTPS repos
       - name: Use HTTPS repos
@@ -72,10 +72,10 @@ jobs:
           E2E_TEST_TAGS: 'E2E'
         run: |
           react-native run-ios
-          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name bookio.app | grep Build/Products/Debug-iphonesimulator/booksio.app`
+          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name SwagLabsMobileApp.app | grep Build/Products/Debug-iphonesimulator/SwagLabsMobileApp.app`
           mkdir -p ios/build/bookio/Build/Products/Debug-iphonesimulator
           cp -R $BUILT_APP ios/build/booksio/Build/Products/Debug-iphonesimulator
           sleep 30
-          npm run e2e-test
+          npm run ios.test.local.dev
       # Upload Appium Logs
       
