@@ -1,4 +1,4 @@
- #Pre-Commit E2E Tests in iOS
+# Pre-Commit E2E Tests in iOS
 name: Pre-Commit E2E Tests in iOS
 # Controls when the action will run.
 on: [push]
@@ -8,7 +8,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -32,7 +32,7 @@ jobs:
       # List iOS Devices & Platforms      
       - name: List iOS Devices & Platforms        
         run: |          
-         xcrun simctl list      
+          xcrun simctl list      
       # Install iOS 11.4 Runtime      
       - name: Install iOS 11.4 Runtime        
         run: |  
@@ -44,7 +44,7 @@ jobs:
            xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-X com.apple.CoreSimulator.SimRuntime.iOS-11-4 > deviceid.txt 
            DEVICEUUID=`cat deviceid.txt`          
            echo $DEVICEUUID          
-                    
+           sed -i -e "s/{IPHONE_UUID}/$DEVICEUUID/g" __tests__/e2e/template_appium_configs_ios.js          
            xcrun simctl boot $DEVICEUUID &
       # Use HTTPS repos
       - name: Use HTTPS repos
@@ -56,13 +56,10 @@ jobs:
           npm install --save-dev
       # Start the Appium Server
       - name: Start the Appium Server
-        run: ./node_modules/.bin/appium --log-timestamp --log-no-colors --allow-insecure chromedriver_autodownload > appium.log &
-      # Poll for Appium Server to Start
-      - name: Poll for Appium Server to Start
         run: |
-          until $(curl --output /dev/null --silent --head --fail http://127.0.0.1:4723/wd/hub/sessions); do
-            sleep 5
-          done
+          npm install -g appium
+          appium -v
+          appium --allow-insecure chromedriver_autodownload
       # Open Metro Bundler in Background
       - name: Open Metro Bundler in Background
         run: |
@@ -75,10 +72,10 @@ jobs:
           E2E_TEST_TAGS: 'E2E'
         run: |
           react-native run-ios
-          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name SwagLabsMobileApp.app | grep Build/Products/Debug-iphonesimulator/SwagLabsMobileApp.app`
+          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name bookio.app | grep Build/Products/Debug-iphonesimulator/booksio.app`
           mkdir -p ios/build/bookio/Build/Products/Debug-iphonesimulator
           cp -R $BUILT_APP ios/build/booksio/Build/Products/Debug-iphonesimulator
           sleep 30
-          npm run ios.test.local.dev
+          npm run e2e-test
       # Upload Appium Logs
       
