@@ -57,7 +57,7 @@ jobs:
       # Start the Appium Server
       - name: Start the Appium Server
         run: |
-         chmod +x ./RunAppiumServer.sh # install and run appium server in the background
+         chmod +x ./scripts/RunAppiumServer.sh # install and run appium server in the background
           ./scripts/RunAppiumServer.sh
       # Open Metro Bundler in Background
       - name: Open Metro Bundler in Background
