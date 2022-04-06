@@ -71,10 +71,11 @@ jobs:
           E2E_TEST_TAGS: 'E2E'
         run: |
           npx react-native run-ios
-          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name SwagLabsMobileApp.app | grep Build/Products/Debug-iphonesimulator/SwagLabsMobileApp.app`
-          mkdir -p ios/build/bookio/Build/Products/Debug-iphonesimulator
-          cp -R $BUILT_APP ios/build/booksio/Build/Products/Debug-iphonesimulator
-          sleep 30
+          #BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name SwagLabsMobileApp.app | grep Build/Products/Debug-iphonesimulator/SwagLabsMobileApp.app`
+          #mkdir -p ios/build/bookio/Build/Products/Debug-iphonesimulator
+          #cp -R $BUILT_APP ios/build/booksio/Build/Products/Debug-iphonesimulator
+          #sleep 30
+          xcrun simctl bootstatus booted
           npm run ios.test.local.dev
       # Upload Appium Logs
       
