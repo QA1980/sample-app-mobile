@@ -57,9 +57,8 @@ jobs:
       # Start the Appium Server
       - name: Start the Appium Server
         run: |
-          npm install -g appium
-          appium -v
-          appium --allow-insecure chromedriver_autodownload
+         chmod +x ./scripts/RunAppiumServer.sh # install and run appium server in the background
+          ./scripts/RunAppiumServer.sh
       # Open Metro Bundler in Background
       - name: Open Metro Bundler in Background
         run: |
